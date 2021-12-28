@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {NativeBaseProvider, Text, VStack, Image, Box,  Input, HStack, Button} from 'native-base';
 import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const AddContact = () => {
     const [newFirstName, setNewFirstName] = useState('')
     const [newLastName, setNewLastName] = useState('')
     const [newAge, setNewAge] = useState('')
+    const navigation = useNavigation();
 
     const addContact = async () =>{
         let data = {
@@ -73,7 +75,7 @@ const AddContact = () => {
                       onPress: () => console.log("Cancel Pressed"),
                       style: "cancel"
                     },
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                    { text: "OK", onPress: () => navigation.goBack() }
                   ]
             )
         }
@@ -81,49 +83,54 @@ const AddContact = () => {
     }
 return(
     <NativeBaseProvider>
-         <VStack alignItems={'center'} mb={4} ml={4} space={2} bgColor={'white'} height={'100%'} >
-            <Box mt={10} borderWidth={5} borderColor={'muted.400'} rounded={'full'}>
-                <Image 
-                    source={require('../../assets/userDef.jpg')}
-                    width={100}
-                    height={100}
-                    rounded={'full'}
-                    alt='profileImage'
-                />
-            </Box>
-            {newFirstName != '' || newLastName != '' || newAge != '' ? 
-                <Box alignItems={'center'}>
-                    <Text fontWeight={'bold'} fontSize={24}>{newFirstName + ' ' + newLastName}</Text>
-                    <Text fontSize={20}>{newAge} years old</Text>
-                </Box>
-                 : null
-            }
-            
-            <Input mt={10}
-                onChangeText={(text) => setNewFirstName(text)}
-                placeholder='First name'
-                size={'lg'}
-                width={'80%'}
-                borderRadius={15}
-            />
-            <Input mt={2}
-                onChangeText={(text) => setNewLastName(text)}
-                placeholder='Last name'
-                size={'lg'}
-                borderRadius={15}
-                width={'80%'}
-            />
-            <Input mt={2}
-                onChangeText={(text) => setNewAge(text)}
-                placeholder='Age'
-                size={'lg'}
-                borderRadius={15}
-                width={'80%'}
-            />
-            <HStack space={2} mt={5}>
-                <Button colorScheme='success' borderRadius={10} onPress={() => {checkVal()}}>Save</Button>
-            </HStack>
-        </VStack>
+        <Box bgColor={'muted.200'} height={'100%'}>
+            <VStack alignItems={'center'} mb={4} space={2} >
+                        <Box mt={10} borderWidth={5} borderColor={'muted.400'} rounded={'full'}>
+                            <Image 
+                                source={require('../../assets/userDef.jpg')}
+                                width={100}
+                                height={100}
+                                rounded={'full'}
+                                alt='profileImage'
+                            />
+                        </Box>
+                        {newFirstName != '' || newLastName != '' || newAge != '' ? 
+                            <Box alignItems={'center'}>
+                                <Text fontWeight={'bold'} fontSize={24}>{newFirstName + ' ' + newLastName}</Text>
+                                <Text fontSize={20}>{newAge} years old</Text>
+                            </Box>
+                            : null
+                        }
+                        <Box alignItems={'center'} width={'100%'} height={'200%'} bgColor={'white'} borderTopRadius={30} mt={3}>
+                            <Input mt={10}
+                                onChangeText={(text) => setNewFirstName(text)}
+                                placeholder='First name'
+                                size={'lg'}
+                                width={'80%'}
+                                borderRadius={15}
+                            />
+                            <Input mt={2}
+                                onChangeText={(text) => setNewLastName(text)}
+                                placeholder='Last name'
+                                size={'lg'}
+                                borderRadius={15}
+                                width={'80%'}
+                            />
+                            <Input mt={2}
+                                onChangeText={(text) => setNewAge(text)}
+                                placeholder='Age'
+                                size={'lg'}
+                                borderRadius={15}
+                                width={'80%'}
+                            />
+                            <HStack space={2} mt={5}>
+                                <Button _text={{fontWeight:'bold'}} colorScheme='success' borderRadius={10} size={'lg'} width={80} onPress={() => {checkVal()}}>SAVE</Button>
+                            </HStack>    
+                        </Box>
+                        
+                    </VStack>
+        </Box>
+        
     </NativeBaseProvider>
 )
 }

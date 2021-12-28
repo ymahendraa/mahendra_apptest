@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {Box, HStack, Image, NativeBaseProvider, Text, AddIcon, Pressable} from 'native-base';
+import {Box, HStack, Image, NativeBaseProvider, Text, AddIcon, Pressable,Input, SearchIcon} from 'native-base';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import SearchBar from '../components/SearchBar';
 
 //Home screen for showing contact list
 const HomeScreen = () => {
     const [results, setResults] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    // const [filteredResult, setFilteredResult] = useState([]);
+    // const [search, setSearch] = useState('')
     const navigation = useNavigation();
 
     const searchAPI = async () =>{
@@ -22,12 +23,29 @@ const HomeScreen = () => {
             .then(response => response.json())
             .then(responseJson => {
                 setResults(responseJson.data);
+                // setFilteredResult(responseJson.data)
             }) 
             .catch (error=> {
                 setErrorMessage('Something went wrong')
             })
         
     };
+
+    // const searchFilter = (text) => {
+    //     if (text) {
+    //         const newResult = results.filter((result) => {
+    //             const resultData = result.firstName ?
+    //                 result.firstName.toUpperCase() : ''.toUpperCase();
+    //             const textData = text.toUpperCase();
+    //             return resultData.indexOf(textData) > -1;
+    //         });
+    //         setFilteredResult(newResult);
+    //         setSearch(text)
+    //     }else{
+    //         setFilteredResult(results);
+    //         setSearch(text)
+    //     }
+    // }
 
     const RenderComponent = ({contact}) => {
         return (
@@ -77,9 +95,27 @@ const HomeScreen = () => {
                         <AddIcon size={6} color='#171717' ml={2} />
                     </Pressable>
                 </HStack>
-                <Text top={8} left={300} mb={3}>{results.length} contacts</Text>
                 
-                <Box mt={5} mb={5}>
+                {/* <Input
+                    w={{
+                    base: "75%",
+                    md: "25%",
+                    }}
+                    fontSize={15}
+                    InputLeftElement={
+                        <SearchIcon size={5} color={'muted.500'} ml={2}/>
+                    }
+                    placeholder="Search Contact"
+                    alignSelf={'center'}
+                    mt={5}
+                    borderRadius={20}
+                    borderWidth={2}
+                    value={search}
+                    onChangeText={(text) => searchFilter(text)}
+                /> */}
+                <Text mt={2} left={300} mb={2}>{results.length} contacts</Text>
+                
+                <Box mb={40}>
                     <FlatList 
                     data={results}
                     keyExtractor={(result) => result.id}
@@ -89,7 +125,7 @@ const HomeScreen = () => {
                 />
                 </Box>
             </Box>
-            {/* <SearchBar /> */}
+            
             
             
             
